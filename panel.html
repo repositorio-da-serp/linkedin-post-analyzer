@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LinkedIn Post Analyzer</title>
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">LPA</span>
+      <div>
+        <h1>Post Analyzer</h1>
+        <span id="page-status" class="status status-idle">Verificando página…</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button id="btn-analyze" class="btn btn-primary" disabled>Analisar publicação</button>
+      <button id="btn-refresh" class="btn" disabled>Atualizar coleta</button>
+      <button id="btn-clear" class="btn btn-quiet" disabled>Limpar dados</button>
+    </div>
+  </header>
+
+  <div id="notice" class="notice" hidden></div>
+
+  <section id="empty-state" class="empty">
+    <p class="empty-title">Nenhuma análise nesta sessão</p>
+    <p>Abra uma publicação do LinkedIn (URL <code>/feed/update/…</code> ou <code>/posts/…</code>), role para carregar os comentários que deseja incluir e clique em <b>Analisar publicação</b>.</p>
+    <p class="fineprint">A extensão lê apenas o que está visível nesta aba. Nada é clicado ou carregado automaticamente.</p>
+  </section>
+
+  <main id="results" hidden>
+
+    <section class="overview">
+      <div class="overview-author">
+        <div>
+          <b id="ov-author">—</b>
+          <span id="ov-headline" class="muted"></span>
+        </div>
+        <span id="ov-type" class="chip"></span>
+      </div>
+      <div class="metric-row" id="ov-metrics"></div>
+
+      <div class="coverage" title="Cobertura da amostra de comentários">
+        <div class="coverage-head">
+          <span>Cobertura da amostra</span>
+          <b id="cov-label">—</b>
+        </div>
+        <div class="coverage-track"><div id="cov-bar" class="coverage-bar"></div></div>
+        <p id="cov-note" class="fineprint"></p>
+      </div>
+    </section>
+
+    <nav class="tabs" id="tabs">
+      <button data-tab="post" class="tab active">Publicação</button>
+      <button data-tab="engagement" class="tab">Engajamento</button>
+      <button data-tab="sentiment" class="tab">Sentimentos</button>
+      <button data-tab="comments" class="tab">Comentários</button>
+      <button data-tab="motivations" class="tab">Motivações</button>
+      <button data-tab="report" class="tab">Relatório</button>
+      <button data-tab="raw" class="tab">Dados brutos</button>
+    </nav>
+
+    <section id="tab-post" class="pane active"></section>
+    <section id="tab-engagement" class="pane"></section>
+    <section id="tab-sentiment" class="pane"></section>
+    <section id="tab-comments" class="pane"></section>
+    <section id="tab-motivations" class="pane"></section>
+    <section id="tab-report" class="pane"></section>
+    <section id="tab-raw" class="pane"></section>
+
+    <footer class="exports">
+      <span class="exports-label">Exportar</span>
+      <button id="exp-json" class="btn btn-small">JSON completo</button>
+      <button id="exp-csv-comments" class="btn btn-small">CSV comentários</button>
+      <button id="exp-csv-metrics" class="btn btn-small">CSV métricas</button>
+      <button id="exp-md" class="btn btn-small">Relatório .md</button>
+      <button id="exp-html" class="btn btn-small">Relatório .html</button>
+    </footer>
+  </main>
+
+  <details class="ai-settings" id="ai-settings">
+    <summary>Modo IA (opcional)</summary>
+    <div class="ai-body">
+      <label class="row-check"><input type="checkbox" id="ai-enabled"> Usar IA para sentimento, clusters e narrativa</label>
+      <label>Provedor
+        <select id="ai-provider">
+          <option value="anthropic">Anthropic (Claude)</option>
+          <option value="openai">OpenAI</option>
+        </select>
+      </label>
+      <label>Modelo <input type="text" id="ai-model" placeholder="padrão do provedor"></label>
+      <label>Chave de API <input type="password" id="ai-key" placeholder="nunca embutida no código" autocomplete="off"></label>
+      <label class="row-check"><input type="checkbox" id="ai-persist"> Guardar a chave neste navegador</label>
+      <p class="fineprint">O armazenamento local de extensões (<code>chrome.storage.local</code>) não é criptografado pelo Chrome. Se preferir, desmarque a opção acima: a chave vale só enquanto o painel estiver aberto. Nenhum dado é enviado sem sua confirmação explícita a cada análise.</p>
+    </div>
+  </details>
+
+  <dialog id="consent-dialog">
+    <h2>Enviar dados para análise com IA?</h2>
+    <div id="consent-body"></div>
+    <div class="dialog-actions">
+      <button id="consent-cancel" class="btn">Cancelar (usar só o modo local)</button>
+      <button id="consent-ok" class="btn btn-primary">Enviar e analisar</button>
+    </div>
+  </dialog>
+
+  <script src="utils.js"></script>
+  <script src="analysis.js"></script>
+  <script src="ai-provider.js"></script>
+  <script src="export.js"></script>
+  <script src="panel.js"></script>
+</body>
+</html>

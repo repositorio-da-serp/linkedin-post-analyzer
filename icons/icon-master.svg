@@ -1,0 +1,15 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Distintivo: navy profundo, sem relação com a marca do LinkedIn -->
+  <rect x="0" y="0" width="128" height="128" rx="27" fill="#16233F"/>
+
+  <!-- Lente da lupa, levemente mais clara para dar profundidade -->
+  <circle cx="55" cy="55" r="24" fill="#20345C" stroke="#EAF0F7" stroke-width="7"/>
+
+  <!-- Cabo da lupa -->
+  <line x1="72.5" y1="72.5" x2="97" y2="97" stroke="#EAF0F7" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Barras ascendentes dentro da lente: leitura vira análise -->
+  <rect x="43" y="62" width="6.5" height="14" rx="2" fill="#F5A83C"/>
+  <rect x="52.5" y="52" width="6.5" height="24" rx="2" fill="#F5A83C"/>
+  <rect x="62" y="42" width="6.5" height="34" rx="2" fill="#F7C878"/>
+</svg>
